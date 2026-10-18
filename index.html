@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ecosistema Logístico La Hermelinda | Prototipo de Interfaces Móviles UPAO</title>
+  <meta name="description" content="Prototipo de interfaces móviles de alta fidelidad para el Ecosistema Digital de Trazabilidad Comercial y Gestión Logística en el Mercado Mayorista La Hermelinda (Trujillo).">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="theme-dark">
+  <!-- Main Application Wrapper -->
+  <div id="app" class="app-container">
+    
+    <!-- Top Header & Presentation Banner -->
+    <header class="top-header">
+      <div class="header-left">
+        <div class="brand-badge">
+          <i class="fa-solid fa-truck-ramp-box"></i>
+          <span>UPAO &bull; GRUPO 4</span>
+        </div>
+        <div class="project-info">
+          <h1>Ecosistema Digital de Gestión Logística &bull; Mercado La Hermelinda</h1>
+          <p class="subtitle">Taller de Creatividad, Innovación y Emprendimiento &bull; Interfaces Móviles para Demostración y Capturas</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="view-mode-pills">
+          <button id="tab-interactive" class="pill-btn active" onclick="switchView('interactive')">
+            <i class="fa-solid fa-mobile-screen"></i> Simulador Móvil
+          </button>
+          <button id="tab-gallery" class="pill-btn" onclick="switchView('gallery')">
+            <i class="fa-solid fa-layer-group"></i> Galería de Capturas
+          </button>
+          <button id="tab-matrix" class="pill-btn" onclick="switchView('matrix')">
+            <i class="fa-solid fa-clipboard-check"></i> Matriz UX & Hallazgos
+          </button>
+        </div>
+
+        <!-- Theme Selector Pills: Dark, Light, High-Contrast -->
+        <div class="theme-selector-pills">
+          <button class="theme-pill-btn active" id="btn-theme-dark" onclick="setAppTheme('dark')" title="Modo Oscuro (Predeterminado)">
+            <i class="fa-solid fa-moon"></i> <span>Oscuro</span>
+          </button>
+          <button class="theme-pill-btn" id="btn-theme-light" onclick="setAppTheme('light')" title="Modo Claro (Ideal para proyector)">
+            <i class="fa-solid fa-sun"></i> <span>Claro</span>
+          </button>
+          <button class="theme-pill-btn" id="btn-theme-contrast" onclick="setAppTheme('high-contrast')" title="Alto Contraste (Informe UPAO)">
+            <i class="fa-solid fa-bolt"></i> <span>Contraste</span>
+          </button>
+        </div>
+
+        <!-- Button to Enter Zen Focus Mode (Solo Celular) -->
+        <button id="btn-zen-mode" class="pill-btn zen-trigger-btn" onclick="toggleZenMode()" title="Ocultar todo y mostrar solo el celular para proyectar">
+          <i class="fa-solid fa-mobile-screen-button"></i> <span>Solo Celular</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- VIEW 1: INTERACTIVE MOBILE SIMULATOR -->
+    <main id="view-interactive" class="view-panel active">
+      <!-- Left Controls Panel -->
+      <aside class="control-sidebar">
+        <div class="sidebar-section">
+          <h3><i class="fa-solid fa-users"></i> Perfil de Usuario</h3>
+          <div class="role-selector">
+            <button class="role-btn active" id="role-mayorista" onclick="setRole('mayorista')">
+              <div class="role-icon"><i class="fa-solid fa-store"></i></div>
+              <div class="role-text">
+                <strong>Mayorista (Vendedor)</strong>
+                <small>Puesto 104 &bull; Madrugada &bull; Manos Ocupadas</small>
+              </div>
+            </button>
+            <button class="role-btn" id="role-minorista" onclick="setRole('minorista')">
+              <div class="role-icon"><i class="fa-solid fa-truck"></i></div>
+              <div class="role-text">
+                <strong>Minorista (Carlos Mendoza)</strong>
+                <small>Minimarket El Sol &bull; Camioneta T4B-821</small>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3><i class="fa-solid fa-list-check"></i> Pantallas Disponibles</h3>
+          <div class="screen-selector-list" id="screen-list-container">
+            <!-- Dynamically populated via JS based on selected role -->
+          </div>
+        </div>
+
+        <div class="sidebar-section info-card">
+          <h4><i class="fa-solid fa-lightbulb"></i> Fundamento de Diseño (Informe)</h4>
+          <p id="screen-rationale-text">
+            Diseño centrado en el contexto real de La Hermelinda a las 4:30 AM: sin pasarelas de pago (sin fiscalización SUNAT), interfaces de alto contraste con botones táctiles gigantes (>48px) y semáforo logístico para ordenar pasadizos.
+          </p>
+          <div class="tags-row" id="screen-tags-container">
+            <span class="badge badge-emerald"><i class="fa-solid fa-check"></i> H-01 Caos Vehicular</span>
+            <span class="badge badge-amber"><i class="fa-solid fa-ban"></i> Sin Pasarela SUNAT</span>
+            <span class="badge badge-blue"><i class="fa-solid fa-bolt"></i> &lt; 10s Registro</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section action-box">
+          <div class="demo-actions-title">Herramientas de Exposición</div>
+          <div class="btn-grid">
+            <button class="action-btn" onclick="triggerQuickSaleDemo()">
+              <i class="fa-solid fa-bolt-lightning text-warning"></i> Simular Venta Rápida (5s)
+            </button>
+            <button class="action-btn" onclick="triggerScanDemo()">
+              <i class="fa-solid fa-qrcode text-success"></i> Simular Escaneo de Turno
+            </button>
+            <button class="action-btn" onclick="openScreenshotModal()">
+              <i class="fa-solid fa-camera"></i> Modo Captura Limpia (PPT)
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Realistic Mobile Device Stage -->
+      <section class="device-stage">
+        <!-- Floating Zen Control Bar (Active when in Solo Celular Mode) -->
+        <nav id="zen-bar" class="zen-floating-bar">
+          <div class="zen-bar-left">
+            <button class="zen-exit-btn" onclick="toggleZenMode()" title="Salir de Modo Solo Celular (o presiona Esc)">
+              <i class="fa-solid fa-arrow-left"></i> <span>Salir (Esc)</span>
+            </button>
+            <div class="zen-role-pills">
+              <button class="zen-pill active" id="zen-role-mayorista" onclick="setRole('mayorista')">
+                <i class="fa-solid fa-store"></i> Mayorista
+              </button>
+              <button class="zen-pill" id="zen-role-minorista" onclick="setRole('minorista')">
+                <i class="fa-solid fa-truck"></i> Minorista (Carlos)
+              </button>
+            </div>
+          </div>
+
+          <div class="zen-bar-center">
+            <button class="zen-icon-btn" onclick="prevScreen()" title="Pantalla Anterior (←)"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="zen-screen-pill">
+              <span class="zen-screen-num" id="zen-num-display">M-1</span>
+              <span class="zen-screen-name" id="zen-name-display">Semáforo y Turnos</span>
+            </div>
+            <button class="zen-icon-btn" onclick="nextScreen()" title="Siguiente Pantalla (→)"><i class="fa-solid fa-chevron-right"></i></button>
+            <!-- Quick numeric pills -->
+            <div class="zen-dots-container" id="zen-dots"></div>
+          </div>
+
+          <div class="zen-bar-right">
+            <div class="zen-theme-group">
+              <button class="zen-icon-btn" id="zen-theme-toggle-btn" onclick="cycleAppTheme()" title="Alternar Tema (Claro / Oscuro / Contraste)">
+                <i class="fa-solid fa-circle-half-stroke"></i>
+              </button>
+            </div>
+            <button class="zen-icon-btn" onclick="toggleNativeFullscreen()" title="Pantalla Completa F11">
+              <i class="fa-solid fa-expand"></i>
+            </button>
+          </div>
+        </nav>
+
+        <div class="stage-toolbar">
+          <div class="device-info">
+            <span class="device-badge"><i class="fa-brands fa-apple"></i> iPhone 15 Pro &bull; Modo Operativo Mercado</span>
+            <span class="screen-title-indicator" id="current-screen-name">Pantalla 1: Semáforo y Turnos de Despacho</span>
+          </div>
+          <div class="stage-nav-controls">
+            <button class="stage-nav-btn zen-quick-btn" onclick="toggleZenMode()" title="Ocultar paneles para proyectar solo el celular">
+              <i class="fa-solid fa-expand"></i> Solo Celular
+            </button>
+            <button class="stage-nav-btn" onclick="prevScreen()"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
+            <span class="screen-counter" id="screen-index-display">1 / 5</span>
+            <button class="stage-nav-btn" onclick="nextScreen()">Siguiente <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+
+        <!-- Phone Frame -->
+        <div class="phone-mockup" id="phone-device">
+          <!-- Dynamic Island / Speaker -->
+          <div class="phone-speaker-bar">
+            <div class="dynamic-island">
+              <span class="island-camera"></span>
+            </div>
+          </div>
+
+          <!-- Status Bar -->
+          <div class="phone-status-bar">
+            <span class="status-time">04:30</span>
+            <div class="status-icons">
+              <span class="offline-badge"><i class="fa-solid fa-satellite-dish"></i> Red Local Galpón</span>
+              <i class="fa-solid fa-signal"></i>
+              <i class="fa-solid fa-wifi"></i>
+              <i class="fa-solid fa-battery-three-quarters"></i>
+            </div>
+          </div>
+
+          <!-- Screen Viewport Container -->
+          <div class="phone-viewport" id="phone-viewport">
+            <!-- Screen HTML injected dynamically or toggled -->
+          </div>
+
+          <!-- Home Indicator Bar -->
+          <div class="phone-home-indicator"></div>
+        </div>
+      </section>
+
+      <!-- Right Details & Live Insights Panel -->
+      <aside class="detail-sidebar">
+        <div class="sidebar-section">
+          <h3><i class="fa-solid fa-bullseye"></i> Hallazgos & Impacto</h3>
+          
+          <div class="insight-box">
+            <div class="insight-header">
+              <span class="badge badge-purple" id="detail-code">H-01 / H-03</span>
+              <strong id="detail-title">Optimización para Manos Ocupadas</strong>
+            </div>
+            <p id="detail-description">
+              A las 4:30 AM los mayoristas cargan sacos, tienen las manos manchadas y el galpón tiene baja iluminación. Las interfaces utilizan botones extragrandes, tipografía legible y colores de advertencia de alto impacto.
+            </p>
+          </div>
+
+          <div class="kpi-mini-grid">
+            <div class="kpi-card">
+              <span class="kpi-num" id="kpi-1-val">&lt; 5 min</span>
+              <span class="kpi-label" id="kpi-1-label">Tiempo de Despacho (Meta MVP)</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-num" id="kpi-2-val">&lt; 10 seg</span>
+              <span class="kpi-label" id="kpi-2-label">Venta Rápida sin Interrupciones</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-num" id="kpi-3-val">0%</span>
+              <span class="kpi-label" id="kpi-3-label">Comisiones Financieras (Cero SUNAT)</span>
+            </div>
+            <div class="kpi-card">
+              <span class="kpi-num" id="kpi-4-val">100%</span>
+              <span class="kpi-label" id="kpi-4-label">QR Funcional Offline en Galpón</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section quote-card">
+          <div class="quote-icon"><i class="fa-solid fa-quote-left"></i></div>
+          <blockquote id="detail-quote">
+            "No me compliques con aplicaciones, yo necesito vender rápido y que los camiones no me tranquen el pasillo."
+          </blockquote>
+          <div class="quote-author" id="detail-author">&bull; Mayorista de Papas, Mercado La Hermelinda (Mapa de Empatía)</div>
+        </div>
+
+        <div class="sidebar-section tip-box">
+          <h4><i class="fa-solid fa-circle-info"></i> Tip para la Exposición</h4>
+          <p id="detail-expo-tip">
+            Menciona al docente que este prototipo resolvió la principal causa raíz de los 5 porqués: la congestión vehicular no era falta de espacio, sino falta de sincronización en el momento de despacho.
+          </p>
+        </div>
+      </aside>
+    </main>
+
+    <!-- VIEW 2: SCREENSHOT GALLERY FOR PRESENTATION -->
+    <section id="view-gallery" class="view-panel">
+      <div class="gallery-header">
+        <div>
+          <h2>Galería de Interfaces para Diapositivas & Capturas de Pantalla</h2>
+          <p>Todas las pantallas del ecosistema móvil listas en alta resolución con sus respectivas fichas técnicas para incluir directamente en la presentación.</p>
+        </div>
+        <div class="gallery-filter-btns">
+          <button class="filter-btn active" onclick="filterGallery('all')">Todas (8)</button>
+          <button class="filter-btn" onclick="filterGallery('mayorista')">Mayorista (4)</button>
+          <button class="filter-btn" onclick="filterGallery('minorista')">Minorista (4)</button>
+        </div>
+      </div>
+
+      <div class="gallery-grid" id="gallery-cards-grid">
+        <!-- Gallery cards populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- VIEW 3: UX MATRIX & FINDINGS -->
+    <section id="view-matrix" class="view-panel">
+      <div class="matrix-container">
+        <div class="matrix-header">
+          <h2>Matriz de Trazabilidad: Hallazgos de Campo vs Respuestas de Diseño</h2>
+          <p>Sustentación metodológica basada en el Double Diamond, Human-Centered Design (HCD) y el informe final del Grupo 4.</p>
+        </div>
+
+        <div class="table-responsive">
+          <table class="findings-table">
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Hallazgo de Investigación</th>
+                <th>Manifestación en La Hermelinda</th>
+                <th>Puntaje Prioridad</th>
+                <th>Solución Diseñada en las Interfaces</th>
+                <th>Pantalla Asociada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-purple">H-01</span></td>
+                <td><strong>Caos vehicular y bloqueo de pasillos</strong></td>
+                <td>Camiones y camionetas llegan juntos a las 4:00 AM; pasillos colapsados frente a los puestos.</td>
+                <td><span class="priority-chip critico">4.75 &bull; Crítico</span></td>
+                <td><strong>Sistema de Semáforo Logístico y Turnos de Rampa:</strong> Asignación de franjas horarias de 20 minutos por pasaje y puerta.</td>
+                <td><span class="screen-link" onclick="jumpToScreen('mayorista', 0)">M-1 Semáforo Turnos</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-purple">H-02</span></td>
+                <td><strong>Descuadres por control manual de stock</strong></td>
+                <td>Cuadernos manchados, tachaduras; conteo físico repetitivo a oscuras de sacos.</td>
+                <td><span class="priority-chip alto">4.25 &bull; Alta</span></td>
+                <td><strong>Inventario Táctil de Sacos con Descuento Automático:</strong> Registro instantáneo de sacos disponibles vs reservados al escanear QR.</td>
+                <td><span class="screen-link" onclick="jumpToScreen('mayorista', 1)">M-2 Stock Rápido</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-purple">H-03</span></td>
+                <td><strong>Fricción por interfaces complejas / manos sucias</strong></td>
+                <td>El mayorista trabaja con guantes o manos sucias, en ambiente oscuro y ruidoso.</td>
+                <td><span class="priority-chip alto">4.25 &bull; Alta</span></td>
+                <td><strong>Botones táctiles gigantes (&gt;50px), alto contraste y flujo de 1 toque:</strong> Modales rápidos sin teclado alfanumérico.</td>
+                <td><span class="screen-link" onclick="jumpToScreen('mayorista', 2)">M-3 Venta Rápida</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-purple">H-04</span></td>
+                <td><strong>Rechazo a comisiones y miedo a fiscalización SUNAT</strong></td>
+                <td>Desconfianza extrema de cobrar con pasarelas web o declarar montos en apps.</td>
+                <td><span class="priority-chip alto">3.80 &bull; Exclusión</span></td>
+                <td><strong>Cero Pasarelas de Pago:</strong> La aplicación es 100% logística (un semáforo). El cobro sigue siendo físico en efectivo o Yape directo.</td>
+                <td><span class="screen-link" onclick="jumpToScreen('minorista', 1)">C-2 Reserva Slot</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-purple">H-05</span></td>
+                <td><strong>Pérdida de señal de internet dentro de galpones</strong></td>
+                <td>Techos de calamina y muros densos cortan los datos móviles en la madrugada.</td>
+                <td><span class="priority-chip medio">3.50 &bull; Técnica</span></td>
+                <td><strong>Códigos QR con Firma Criptográfica Offline:</strong> El minorista genera su pase y el mayorista escanea sin requerir datos móviles activos.</td>
+                <td><span class="screen-link" onclick="jumpToScreen('minorista', 2)">C-3 Ticket QR Offline</span></td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-purple">H-06</span></td>
+                <td><strong>Atención simultánea de compradores al paso</strong></td>
+                <td>Mientras carga 50 sacos a un camión, llegan caseros a pie por 1 o 2 sacos.</td>
+                <td><span class="priority-chip alto">4.10 &bull; Alta</span></td>
+                <td><strong>Botón de Venta Rápida en 2 taps (&lt; 10 seg):</strong> Descuenta stock de inmediato sin interrumpir el turno del camión.</td>
+                <td><span class="screen-link" onclick="jumpToScreen('mayorista', 2)">M-3 Venta Rápida</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Personas & Journey Card -->
+        <div class="methodology-card-grid">
+          <div class="method-card">
+            <div class="method-badge">Arquetipo Principal</div>
+            <h3>Carlos Mendoza (45 años)</h3>
+            <p><strong>Comprador Minorista &bull; Dueño de Minimarket en Trujillo</strong></p>
+            <ul>
+              <li><strong>Objetivo:</strong> Llegar a La Hermelinda a las 4:50 AM, cargar 40 sacos de papa y salir antes de las 5:20 AM.</li>
+              <li><strong>Frustración anterior:</strong> 2 horas atascado en el pasillo principal con el camión prendido gastando combustible.</li>
+              <li><strong>Solución:</strong> Reserva de turno de 05:00 a 05:20 AM por Puerta 8 con código QR en mano.</li>
+            </ul>
+          </div>
+          <div class="method-card">
+            <div class="method-badge">Insight Clave del Mayorista</div>
+            <h3>El Semáforo Logístico (Drive-Thru)</h3>
+            <p><strong>"Organizar el mercado como un autoservicio sin tocar su dinero"</strong></p>
+            <ul>
+              <li>El mayorista no quiere ser un usuario administrativo ni contador de software.</li>
+              <li>El sistema funciona como un semáforo vehicular: luz verde cuando la rampa está libre, confirmación con QR en 3 segundos y stock actualizado al instante.</li>
+              <li>Conserva el uso de Yape/efectivo tradicional sin riesgo de fiscalización.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Notification Toast for Interactive feedback -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- CLEAN SCREENSHOT MODAL (For PowerPoint / Canva Export) -->
+  <div id="screenshot-modal" class="screenshot-modal" onclick="closeScreenshotModal(event)">
+    <div class="screenshot-modal-content" onclick="event.stopPropagation()">
+      <div class="modal-top-bar">
+        <div class="modal-title-box">
+          <span class="badge badge-emerald" id="modal-screen-badge">M-1</span>
+          <h3 id="modal-screen-title">Semáforo y Turnos de Despacho</h3>
+        </div>
+        <div class="modal-actions">
+          <span class="modal-hint"><i class="fa-solid fa-camera"></i> Presiona <strong>Win + Shift + S</strong> para recortar o captura directamente</span>
+          <button class="stage-nav-btn" onclick="closeScreenshotModal()"><i class="fa-solid fa-xmark"></i> Cerrar</button>
+        </div>
+      </div>
+      <div class="modal-phone-container" id="modal-phone-target">
+        <!-- Cloned or targeted phone frame will appear here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>
